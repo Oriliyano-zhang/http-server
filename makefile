@@ -1,12 +1,28 @@
-SrcFiles=$(wildcard *.c)
-Target=$(patsubst %.c,%.o,$(SrcFiles))
+CXX=g++
+LD=g++
+CXXFLAGS=-g -Wall
+SRC_FILE = $(wildcard *.cpp)
+OBJ_FILE = $(patsubst %.cpp, %.o, $(SRC_FILE))
 
-server:$(Target)
-	gcc -o server $(Target) -g -Wall
+all: server
 
-%.o:%.c
-	gcc -c $< -o $@
+server : $(OBJ_FILE) 
+	$(LD) $^ -o $@ 
 
-.PHONY:clean all
+
+#生成依赖文件
+%.d : %.cpp
+	$(CXX) $(CXXFLAGS) -M $^  > $@
+
+#include $(SRC_FILE:.cpp=.d) 
+
+print:
+	@echo $(SRC_FILE)
+	@echo $(OBJ_FILE)
+
 clean:
-	-rm -rf $(Target)
+	rm -f *.o
+	rm -f *.d
+	rm -f server
+
+.PHONY: print clean

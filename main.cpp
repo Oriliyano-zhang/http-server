@@ -118,7 +118,7 @@ int main(int argc, const char *argv[])
             }
         }
     }
-	close(epfd);
-	close(lfd);
+    close(epfd);
+    close(lfd);
     return 0;
 }
